@@ -32,6 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# functions/.env only has non-sensitive values (client email, bucket name)
+# GCS_PRIVATE_KEY lives in Firebase Secret Manager, not here
+!functions/.env
 
 # vercel
 .vercel
