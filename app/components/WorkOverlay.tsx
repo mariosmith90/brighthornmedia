@@ -106,10 +106,30 @@ export default function WorkOverlay({ open, initialFilter, onClose }: WorkOverla
     return () => window.removeEventListener("keydown", handler);
   }, [open, go, onClose]);
 
-  // Lock body scroll
+  // Lock body scroll — iOS-safe: position:fixed prevents rubber-band bleed-through
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    if (open) {
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+      document.body.style.overflow = "hidden";
+    } else {
+      const scrollY = parseFloat(document.body.style.top || "0") * -1;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      document.body.style.overflow = "";
+      window.scrollTo(0, scrollY);
+    }
+    return () => {
+      const scrollY = parseFloat(document.body.style.top || "0") * -1;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      document.body.style.overflow = "";
+      if (scrollY) window.scrollTo(0, scrollY);
+    };
   }, [open]);
 
   if (!open) return null;
@@ -129,13 +149,19 @@ export default function WorkOverlay({ open, initialFilter, onClose }: WorkOverla
     <div
       style={{
         position: "fixed",
-        inset: 0,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: "100%",
+        height: "100dvh",
         background: "#0A0A0A",
         zIndex: 200,
         overflow: "hidden",
         opacity: entered ? 1 : 0,
         transition: "opacity 0.4s ease",
-      }}
+        WebkitOverflowScrolling: "touch",
+      } as React.CSSProperties}
     >
       {/* Per-project ambient gradient */}
       <div
