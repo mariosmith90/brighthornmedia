@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0A0A0A;
+  --foreground: #F0EBE0;
+  --surface: #111111;
+  --border: #1E1E1E;
+  --muted: #5A5A5A;
+  --accent: #C9A96E;
+  --accent-hover: #E0C080;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-playfair);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), 'Arial', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.028;
+}
+
+/* Marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  animation: marquee 28s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 2px;
+}
+
+/* Selection */
+::selection {
+  background: var(--accent);
+  color: #0A0A0A;
+}
+
+/* Underline animation */
+.animated-link {
+  position: relative;
+  display: inline-block;
+}
+
+.animated-link::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.animated-link:hover::after {
+  width: 100%;
+}
+
+/* Bento card hover */
+.bento-card {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 0.3s ease;
+}
+
+.bento-card:hover {
+  transform: translateY(-2px);
+  border-color: #2E2E2E !important;
+}
+
+/* Portfolio image hover */
+.portfolio-item {
+  overflow: hidden;
+}
+
+.portfolio-item img,
+.portfolio-item .portfolio-img {
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.portfolio-item:hover .portfolio-img {
+  transform: scale(1.04);
+}
+
+/* Number counter style */
+.stat-number {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+/* ── Responsive ── */
+
+/* Hide webkit scrollbar on filter pill row */
+.filter-pill-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* Work page: stack bottom info grid on mobile */
+@media (max-width: 767px) {
+  .work-bottom-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  .work-services-col {
+    display: none !important;
+  }
+  .work-nav-col {
+    justify-content: flex-start !important;
+  }
+}
+
+/* Portfolio cards: use landscape aspect on mobile so stacked cards aren't huge */
+@media (max-width: 767px) {
+  .portrait-card .portfolio-img {
+    aspect-ratio: 16 / 9 !important;
+  }
+}

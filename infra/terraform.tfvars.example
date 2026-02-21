@@ -1,0 +1,16 @@
+# Copy this file to terraform.tfvars and fill in your values:
+#   cp terraform.tfvars.example terraform.tfvars
+
+project_id      = "your-gcp-project-id"
+bucket_name     = "brighthornmedia-images"        # must be globally unique
+region          = "us-west1"
+bucket_location = "US"
+environment     = "production"
+allowed_origins = [
+  "https://brighthornmedia.com",
+  "https://www.brighthornmedia.com",
+  "http://localhost:3000",
+  "http://localhost:3001",
+]
+firebase_site_id              = "brighthornmedia" # must be globally unique
+firebase_web_app_display_name = "Brighthorn Media Web"
