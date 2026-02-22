@@ -24,7 +24,6 @@ export default function OverlayTopBar({
         zIndex: 10,
         display: "flex",
         flexDirection: "column",
-        borderBottom: "1px solid rgba(255,255,255,0.06)",
         background: "rgba(8,8,8,0.55)",
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
