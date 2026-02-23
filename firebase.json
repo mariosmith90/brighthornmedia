@@ -20,7 +20,7 @@
       {
         "source": "/api/media",
         "function": "nextServer",
-        "region": "us-west1"
+        "region": "us-east1"
       }
     ]
   },

@@ -12,7 +12,7 @@ const EXPIRY_MS = 15 * 60 * 1000;
 
 exports.nextServer = onRequest(
   {
-    region: "us-west1",
+    region: "us-east1",
     memory: "256MiB",
     timeoutSeconds: 30,
     concurrency: 80,
