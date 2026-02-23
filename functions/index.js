@@ -4,13 +4,13 @@ const { onRequest } = require("firebase-functions/v2/https");
 const { defineSecret } = require("firebase-functions/params");
 const { Storage } = require("./node_modules/@google-cloud/storage/build/cjs/src");
 
-// GCS_PRIVATE_KEY stored in Firebase Secret Manager
+// BRIGHTHORNMEDIA_GCS_PRIVATE_KEY stored in Firebase Secret Manager
 // GCS_CLIENT_EMAIL and GCS_BUCKET_NAME are set via functions/.env
-const gcsPrivateKey = defineSecret("GCS_PRIVATE_KEY");
+const gcsPrivateKey = defineSecret("BRIGHTHORNMEDIA_GCS_PRIVATE_KEY");
 
 const EXPIRY_MS = 15 * 60 * 1000;
 
-exports.nextServer = onRequest(
+exports.brighthornmediaMedia = onRequest(
   {
     region: "us-east1",
     memory: "256MiB",
@@ -46,7 +46,7 @@ exports.nextServer = onRequest(
         credentials: {
           client_email: process.env.GCS_CLIENT_EMAIL,
           // Secret Manager stores real newlines; .env.local uses \n — handle both
-          private_key: (process.env.GCS_PRIVATE_KEY || "").replace(/\\n/g, "\n"),
+          private_key: (gcsPrivateKey.value() || "").replace(/\\n/g, "\n"),
         },
       });
 
